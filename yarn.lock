@@ -111,6 +111,13 @@ etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
 
+express-validator@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/express-validator/-/express-validator-5.3.1.tgz#6f42c6d52554441b0360c40ccfb555b1770affe2"
+  dependencies:
+    lodash "^4.17.10"
+    validator "^10.4.0"
+
 express@^4.17.0:
   version "4.17.0"
   resolved "https://registry.yarnpkg.com/express/-/express-4.17.0.tgz#288af62228a73f4c8ea2990ba3b791bb87cd4438"
@@ -194,7 +201,7 @@ kareem@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/kareem/-/kareem-2.3.0.tgz#ef33c42e9024dce511eeaf440cd684f3af1fc769"
 
-lodash@^4.17.11:
+lodash@^4.17.10, lodash@^4.17.11:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
@@ -435,6 +442,10 @@ unpipe@1.0.0, unpipe@~1.0.0:
 utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
+
+validator@^10.4.0:
+  version "10.11.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-10.11.0.tgz#003108ea6e9a9874d31ccc9e5006856ccd76b228"
 
 vary@^1, vary@~1.1.2:
   version "1.1.2"
