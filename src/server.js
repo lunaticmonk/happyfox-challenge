@@ -2,18 +2,21 @@
 
 const cors = require("cors");
 const express = require("express");
+const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
 // Routers
 const contactRouter = require("./routers/contact");
 
 const { ALLOWED_DOMAINS } = require("../configs/app");
+const { DATABASE_USER, DATABASE_PASSWORD } = require("../configs/database");
 
 class Server {
   constructor() {
     this.app = express();
     this.config();
     this.routes();
+    this.initializeDb();
   }
 
   config() {
@@ -43,6 +46,15 @@ class Server {
         return res.status(err.status).send(response);
       }
     });
+  }
+
+  initializeDb() {
+    mongoose.connect(
+      `mongodb://${DATABASE_USER}:${DATABASE_PASSWORD}@localhost:27017/happyfox`,
+      {
+        useNewUrlParser: true
+      }
+    );
   }
 }
 
