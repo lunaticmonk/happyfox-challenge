@@ -5,11 +5,13 @@ const router = express.Router();
 
 const { body } = require("express-validator/check");
 
-const { saveContact } = require("../controllers/contact");
+const { saveContact, getContact } = require("../controllers/contact");
 
 router.get("/", (req, res) => {
   res.status(200).send("Contact Resource");
 });
+
+router.get("/:id", getContact);
 
 router.post(
   "/add",
