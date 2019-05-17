@@ -20,7 +20,7 @@ const contactSchema = Schema({
   phone: [
     {
       type: phoneSchema,
-      required: true
+      required: false
     }
   ]
 });
