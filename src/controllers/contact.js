@@ -76,7 +76,7 @@ async function updateContact(req, res, next) {
   }
   try {
     const { id } = req.params;
-	const { body } = req;
+    const { body } = req;
 
     const contact = await Contact.findOneAndUpdate({ _id: id }, body, {
       new: true
@@ -99,8 +99,31 @@ async function updateContact(req, res, next) {
   }
 }
 
+async function deleteContact(req, res, next) {
+  try {
+    const { id } = req.params;
+
+    const contact = await Contact.findOneAndDelete({ _id: id });
+
+    const response = {
+      message: `Contact with contact name: ${contact.name} deleted!`,
+      status: 200
+    };
+
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(error);
+    const err = {
+      message: `Failure deleting the contact.`,
+      status: 422
+    };
+    return res.status(err.status).send(err);
+  }
+}
+
 module.exports = {
   saveContact,
   getContact,
-  updateContact
+  updateContact,
+  deleteContact
 };

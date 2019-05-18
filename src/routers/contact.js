@@ -5,7 +5,12 @@ const router = express.Router();
 
 const { body } = require("express-validator/check");
 
-const { saveContact, getContact, updateContact } = require("../controllers/contact");
+const {
+  saveContact,
+  getContact,
+  updateContact,
+  deleteContact
+} = require("../controllers/contact");
 
 router.get("/", (req, res) => {
   res.status(200).send("Contact Resource");
@@ -52,5 +57,7 @@ router.patch(
   ],
   updateContact
 );
+
+router.delete("/:id", deleteContact);
 
 module.exports = router;
