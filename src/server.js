@@ -40,15 +40,14 @@ class Server {
       }
 
       if (err) {
-        const response = {
-          error: err.toJSON()
-        };
+        const response = err.toJSON();
         return res.status(err.status).send(response);
       }
     });
   }
 
   initializeDb() {
+    mongoose.set("useFindAndModify", false);
     mongoose.connect(
       `mongodb://${DATABASE_USER}:${DATABASE_PASSWORD}@localhost:27017/happyfox`,
       {
