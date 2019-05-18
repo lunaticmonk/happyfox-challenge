@@ -42,7 +42,7 @@ async function saveContact(req, res, next) {
       message: `Failure adding new contact.`,
       status: 500
     };
-    return res.status(500).send(err);
+    return res.status(err.status).send(err);
   }
 }
 
@@ -69,7 +69,38 @@ async function getContact(req, res, next) {
   }
 }
 
+async function updateContact(req, res, next) {
+  const err = validationResult(req);
+  if (!err.isEmpty()) {
+    return next(new UnprocessableRequestError(err.mapped()));
+  }
+  try {
+    const { id } = req.params;
+	const { body } = req;
+
+    const contact = await Contact.findOneAndUpdate({ _id: id }, body, {
+      new: true
+    });
+
+    const response = {
+      data: contact,
+      message: `Contact updated!`,
+      status: 200
+    };
+
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(error);
+    const err = {
+      message: `Failure updating new contact.`,
+      status: 500
+    };
+    return res.status(err.status).send(err);
+  }
+}
+
 module.exports = {
   saveContact,
-  getContact
+  getContact,
+  updateContact
 };
