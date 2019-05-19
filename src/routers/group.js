@@ -5,11 +5,13 @@ const router = express.Router();
 
 const { body } = require("express-validator/check");
 
-const { saveGroup } = require("../controllers/group");
+const { saveGroup, deleteGroup } = require("../controllers/group");
 
 router.get("/", (req, res) => {
   res.status(200).send("Group Resource");
 });
+
+router.delete("/:id", deleteGroup);
 
 router.post(
   "/add",
@@ -26,5 +28,6 @@ router.post(
   ],
   saveGroup
 );
+
 
 module.exports = router;

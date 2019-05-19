@@ -46,6 +46,28 @@ async function saveGroup(req, res, next) {
   }
 }
 
+async function deleteGroup(req, res, next) {
+  try {
+    const { id } = req.params;
+
+    const group = await Group.findOneAndDelete({ _id: id });
+
+    const response = {
+      message: `Group with group name: "${group.name}" deleted!`,
+      status: 200
+    };
+
+    return res.status(response.status).send(response);
+  } catch (error) {
+    const err = {
+      message: `Failed deleting the group since it may be non-existent or already deleted.`,
+      status: 404
+    };
+    return res.status(err.status).send(err);
+  }
+}
+
 module.exports = {
-  saveGroup
+  saveGroup,
+  deleteGroup
 };
