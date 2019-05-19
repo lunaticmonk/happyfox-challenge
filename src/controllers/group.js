@@ -96,8 +96,38 @@ async function getGroup(req, res, next) {
   }
 }
 
+async function updateGroup(req, res, next) {
+  const err = validationResult(req);
+  if (!err.isEmpty()) {
+    return next(new UnprocessableRequestError(err.mapped()));
+  }
+  try {
+    const { id } = req.params;
+    const { body } = req;
+
+    const group = await Group.findOneAndUpdate({ _id: id }, body, {
+      new: true
+    });
+
+    const response = {
+      data: group,
+      message: `Group updated!`,
+      status: 200
+    };
+
+    return res.status(response.status).send(response);
+  } catch (error) {
+    const err = {
+      message: `Failure updating new group.`,
+      status: 400
+    };
+    return res.status(err.status).send(err);
+  }
+}
+
 module.exports = {
   saveGroup,
   deleteGroup,
-  getGroup
+  getGroup,
+  updateGroup
 };
