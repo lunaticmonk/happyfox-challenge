@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 
 // Routers
 const contactRouter = require("./routers/contact");
+const groupRouter = require("./routers/group");
 
 const { ALLOWED_DOMAINS } = require("../configs/app");
 const { DATABASE_USER, DATABASE_PASSWORD } = require("../configs/database");
@@ -33,6 +34,7 @@ class Server {
 
   routes() {
     this.app.use("/api/contact", contactRouter);
+    this.app.use("/api/group", groupRouter);
 
     this.app.use((err, req, res, next) => {
       if (res.headersSent) {
