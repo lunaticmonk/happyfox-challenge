@@ -5,16 +5,19 @@ const Schema = mongoose.Schema;
 
 const { WORK, PERSONAL } = require("../../configs/constants");
 
-const emailSchema = Schema({
-  value: {
-    type: String,
-    required: true
+const emailSchema = Schema(
+  {
+    value: {
+      type: String,
+      required: true
+    },
+    tag: {
+      type: String,
+      enum: [WORK, PERSONAL],
+      required: true
+    }
   },
-  tag: {
-    type: String,
-    enum: [WORK, PERSONAL],
-    required: true
-  }
-});
+  { _id: false, id: false }
+);
 
 module.exports = emailSchema;
