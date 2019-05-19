@@ -10,6 +10,8 @@
 const Group = require("../models/group");
 const { validationResult } = require("express-validator/check");
 
+const ApiError = require("../errors/api");
+const NotFoundError = require("../errors/notfound");
 const UnprocessableRequestError = require("../errors/unprocessablerequest");
 
 async function saveGroup(req, res, next) {
@@ -38,6 +40,7 @@ async function saveGroup(req, res, next) {
 
     return res.status(response.status).send(response);
   } catch (error) {
+    console.log(error);
     const err = {
       message: `Failure adding new group.`,
       status: 500
@@ -67,7 +70,34 @@ async function deleteGroup(req, res, next) {
   }
 }
 
+async function getGroup(req, res, next) {
+  try {
+    const { id } = req.params;
+
+    const group = await Group.findOne({ _id: id }).populate(
+      "contacts",
+      "name email phone -_id"
+    );
+    if (group) {
+      const response = {
+        data: group,
+        message: `Group found!`,
+        status: 200
+      };
+
+      return res.status(response.status).send(response);
+    } else {
+      const err = new NotFoundError("Group not found");
+      return res.status(err.status).send(err);
+    }
+  } catch (error) {
+    const err = new ApiError("Failed fetching group");
+    return res.status(err.status).send(err);
+  }
+}
+
 module.exports = {
   saveGroup,
-  deleteGroup
+  deleteGroup,
+  getGroup
 };
