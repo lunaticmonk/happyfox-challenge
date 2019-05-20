@@ -28,5 +28,9 @@ const contactSchema = Schema(
   { timestamps: { createdAt: "createdAt", updatedAt: "createdAt" } }
 );
 
+contactSchema.index({
+  name: "text"
+});
+
 const Contact = mongoose.model("Contact", contactSchema);
 module.exports = Contact;

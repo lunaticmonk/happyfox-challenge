@@ -3,18 +3,30 @@
 const express = require("express");
 const router = express.Router();
 
-const { body } = require("express-validator/check");
+const { body, query } = require("express-validator/check");
 
 const {
   saveContact,
   getContact,
   updateContact,
-  deleteContact
+  deleteContact,
+  searchContact
 } = require("../controllers/contact");
 
 router.get("/", (req, res) => {
   res.status(200).send("Contact Resource");
 });
+
+router.get(
+  "/search",
+  [
+    query("query")
+      .optional()
+      .isString()
+      .withMessage("Invalid search strinng")
+  ],
+  searchContact
+);
 
 router.get("/:id", getContact);
 

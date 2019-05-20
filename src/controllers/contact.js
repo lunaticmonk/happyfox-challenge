@@ -14,6 +14,8 @@ const ApiError = require("../errors/api");
 const NotFoundError = require("../errors/notfound");
 const UnprocessableRequestError = require("../errors/unprocessablerequest");
 
+const { sortMatchesDescending } = require("../utils/utils");
+
 async function saveContact(req, res, next) {
   const err = validationResult(req);
   if (!err.isEmpty()) {
@@ -121,9 +123,36 @@ async function deleteContact(req, res, next) {
   }
 }
 
+async function searchContact(req, res, next) {
+  try {
+    const { query } = req.query;
+    const matches = await Contact.find({
+      $text: { $search: query, $caseSensitive: false }
+    });
+
+    const descendingOrdered = await sortMatchesDescending(matches);
+
+    const response = {
+      data: matches,
+      message: `Returned matches`,
+      status: 200
+    };
+
+    return res.status(response.status).send(response);
+  } catch (error) {
+    console.log(error);
+    const err = {
+      message: `Failure searching for the given query`,
+      status: 404
+    };
+    return res.status(err.status).send(err);
+  }
+}
+
 module.exports = {
   saveContact,
   getContact,
   updateContact,
-  deleteContact
+  deleteContact,
+  searchContact
 };

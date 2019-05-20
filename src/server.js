@@ -49,6 +49,7 @@ class Server {
   }
 
   initializeDb() {
+    mongoose.set("useCreateIndex", true);
     mongoose.set("useFindAndModify", false);
     mongoose.connect(
       `mongodb://${DATABASE_USER}:${DATABASE_PASSWORD}@localhost:27017/happyfox`,
