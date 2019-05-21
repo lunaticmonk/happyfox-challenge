@@ -13,6 +13,7 @@ const { validationResult } = require("express-validator/check");
 const ApiError = require("../errors/api");
 const NotFoundError = require("../errors/notfound");
 const UnprocessableRequestError = require("../errors/unprocessablerequest");
+const BadRequestError = require("../errors/badrequest");
 
 async function saveGroup(req, res, next) {
   const err = validationResult(req);
@@ -35,37 +36,12 @@ async function saveGroup(req, res, next) {
     const response = {
       data: group,
       message: `Group added!`,
-      status: 200
+      status: 201
     };
 
     return res.status(response.status).send(response);
   } catch (error) {
-    console.log(error);
-    const err = {
-      message: `Failure adding new group.`,
-      status: 500
-    };
-    return res.status(err.status).send(err);
-  }
-}
-
-async function deleteGroup(req, res, next) {
-  try {
-    const { id } = req.params;
-
-    const group = await Group.findOneAndDelete({ _id: id });
-
-    const response = {
-      message: `Group with group name: "${group.name}" deleted!`,
-      status: 200
-    };
-
-    return res.status(response.status).send(response);
-  } catch (error) {
-    const err = {
-      message: `Failed deleting the group since it may be non-existent or already deleted.`,
-      status: 404
-    };
+    const err = new ApiError("Failure adding new group.");
     return res.status(err.status).send(err);
   }
 }
@@ -76,7 +52,7 @@ async function getGroup(req, res, next) {
 
     const group = await Group.findOne({ _id: id }).populate(
       "contacts",
-      "name email phone -_id"
+      "name email phone"
     );
     if (group) {
       const response = {
@@ -117,10 +93,27 @@ async function updateGroup(req, res, next) {
 
     return res.status(response.status).send(response);
   } catch (error) {
-    const err = {
-      message: `Failure updating new group.`,
-      status: 400
+    const err = new BadRequestError("Failure updating new group.");
+    return res.status(err.status).send(err);
+  }
+}
+
+async function deleteGroup(req, res, next) {
+  try {
+    const { id } = req.params;
+
+    const group = await Group.findOneAndDelete({ _id: id });
+
+    const response = {
+      message: `Group with group name: "${group.name}" deleted!`,
+      status: 200
     };
+
+    return res.status(response.status).send(response);
+  } catch (error) {
+    const err = new NotFoundError(
+      "Failed deleting the group since it may be non-existent or already deleted."
+    );
     return res.status(err.status).send(err);
   }
 }
