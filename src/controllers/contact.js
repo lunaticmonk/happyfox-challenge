@@ -13,6 +13,7 @@ const { validationResult } = require("express-validator/check");
 const ApiError = require("../errors/api");
 const NotFoundError = require("../errors/notfound");
 const UnprocessableRequestError = require("../errors/unprocessablerequest");
+const BadRequestError = require("../errors/badrequest");
 
 const { sortMatchesDescending } = require("../utils/utils");
 
@@ -27,7 +28,7 @@ async function saveContact(req, res, next) {
     const newContact = new Contact({
       name,
       phone,
-      email: email || []
+      email
     });
 
     const contact = await newContact.save();
@@ -35,15 +36,12 @@ async function saveContact(req, res, next) {
     const response = {
       data: contact,
       message: `Contact saved!`,
-      status: 200
+      status: 201
     };
 
-    return res.status(200).send(response);
+    return res.status(response.status).send(response);
   } catch (error) {
-    const err = {
-      message: `Failure adding new contact.`,
-      status: 500
-    };
+    const err = new ApiError("Failure adding new contact.");
     return res.status(err.status).send(err);
   }
 }
@@ -56,7 +54,7 @@ async function getContact(req, res, next) {
     if (contact) {
       const response = {
         data: contact,
-        message: `Contact saved!`,
+        message: `Returned contact`,
         status: 200
       };
 
@@ -90,13 +88,9 @@ async function updateContact(req, res, next) {
       status: 200
     };
 
-    return res.status(200).send(response);
+    return res.status(response.status).send(response);
   } catch (error) {
-    console.log(error);
-    const err = {
-      message: `Failure updating new contact.`,
-      status: 500
-    };
+    const err = new BadRequestError("Failure updating new contact.");
     return res.status(err.status).send(err);
   }
 }
@@ -114,11 +108,9 @@ async function deleteContact(req, res, next) {
 
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    const err = {
-      message: `Failure deleting the contact.`,
-      status: 422
-    };
+    const err = new NotFoundError(
+      "Failure deleting the contact. Either the contact is already deleted or it does not exist."
+    );
     return res.status(err.status).send(err);
   }
 }
@@ -146,10 +138,7 @@ async function searchContact(req, res, next) {
 
     return res.status(response.status).send(response);
   } catch (error) {
-    const err = {
-      message: `Failure searching for the given query`,
-      status: 404
-    };
+    const err = new NotFoundError("Failure searching for the given query");
     return res.status(err.status).send(err);
   }
 }
