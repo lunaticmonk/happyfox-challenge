@@ -36,7 +36,7 @@ describe("GROUP", () => {
     contactId = _id;
     newGroup.contacts.push(contactId);
 
-    expect(status).to.equal(200);
+    expect(status).to.equal(201);
   });
 
   it("should add a new group", async () => {
