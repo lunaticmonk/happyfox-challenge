@@ -25,7 +25,7 @@ const contactSchema = Schema(
       }
     ]
   },
-  { timestamps: { createdAt: "createdAt", updatedAt: "createdAt" } }
+  { timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" } }
 );
 
 contactSchema.index({

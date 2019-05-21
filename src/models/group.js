@@ -18,7 +18,7 @@ const groupSchema = Schema(
       }
     ]
   },
-  { timestamps: { createdAt: "createdAt", updatedAt: "createdAt" } }
+  { timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" } }
 );
 
 const Group = mongoose.model("Group", groupSchema);
