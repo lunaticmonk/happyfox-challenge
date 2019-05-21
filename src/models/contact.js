@@ -29,8 +29,10 @@ const contactSchema = Schema(
 );
 
 contactSchema.index({
-  name: "text"
+  name: "text",
+  "email.value": "text"
 });
 
 const Contact = mongoose.model("Contact", contactSchema);
+
 module.exports = Contact;

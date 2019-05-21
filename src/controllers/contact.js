@@ -126,21 +126,26 @@ async function deleteContact(req, res, next) {
 async function searchContact(req, res, next) {
   try {
     const { query } = req.query;
-    const matches = await Contact.find({
-      $text: { $search: query, $caseSensitive: false }
-    });
+    let matches;
+
+    if (query === "") {
+      matches = await Contact.find({});
+    } else {
+      matches = await Contact.find({
+        $text: { $search: query, $caseSensitive: false }
+      });
+    }
 
     const descendingOrdered = await sortMatchesDescending(matches);
 
     const response = {
       data: matches,
-      message: `Returned matches`,
+      message: matches.length > 0 ? `Returned matches` : `No matches found`,
       status: 200
     };
 
     return res.status(response.status).send(response);
   } catch (error) {
-    console.log(error);
     const err = {
       message: `Failure searching for the given query`,
       status: 404
