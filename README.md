@@ -168,26 +168,26 @@ Response
 
 ```json
 
-GET /api/contact/search?query=<name_email_or_phone>
+GET /api/contact/search?name=name&email=email&phone=phone
 
-Example query = "carice"
+Example query = "/api/contact/search?name=sumedh&email=hi@lunaticmonk.space&phone=7020195689"
 
-Response
+Response (will return 5 matched results)
 
 {
     "data": [
         {
             "_id": "5ce3e6646b9e1b1a62c4795d",
-            "name": "carice",
+            "name": "sumedh nimkarde",
             "phone": [
                 {
-                    "value": "0987654321",
+                    "value": "7020195689",
                     "tag": "work"
                 }
             ],
             "email": [
                 {
-                    "value": "carice@got.co",
+                    "value": "hi@lunaticmonk.space",
                     "tag": "work"
                 }
             ],
