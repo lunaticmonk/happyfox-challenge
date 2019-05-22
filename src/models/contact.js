@@ -28,6 +28,12 @@ const contactSchema = Schema(
   { timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" } }
 );
 
+/**
+ * Indexing done on name, email and phone.
+ * MongoDB inbuilt search is for lite use and is
+ * not that powerful.
+ *
+ */
 contactSchema.index(
   {
     name: "text",
@@ -37,7 +43,7 @@ contactSchema.index(
   {
     name: 10,
     "email.value": 9,
-    "phone.value": 8
+    "phone.value": 9
   }
 );
 

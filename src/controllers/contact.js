@@ -146,10 +146,14 @@ async function searchContact(req, res, next) {
       matches = [...matchesByName, ...matchesByEmail, ...matchesByPhone];
     }
 
+    /**
+     *  Sorting in order of createdAt. Most recent item would be first.
+     * 	Check sortMatchesDescending in utils for more details.
+     */
     const descendingOrdered = await sortMatchesDescending(matches);
 
     const response = {
-      data: matches,
+      data: descendingOrdered,
       message: matches.length > 0 ? `Returned matches` : `No matches found`,
       status: 200
     };
