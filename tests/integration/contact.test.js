@@ -57,6 +57,17 @@ describe("CONTACT", () => {
     expect(name).to.not.equal(newContact.name);
   });
 
+  it("should search for a contact", async () => {
+    const result = await axios.get(
+      `${BASE_URL}/api/contact/search?name=sumedh`
+    );
+    const { status, data: matches } = result.data;
+
+    expect(matches.length).to.be.at.most(5);
+    expect(matches[0].name).to.equal(newContact.name.toLowerCase());
+    expect(status).to.equal(200);
+  });
+
   it("should delete a contact", async () => {
     const result = await axios.delete(`${BASE_URL}/api/contact/${contactId}`);
     const { status } = result.data;
