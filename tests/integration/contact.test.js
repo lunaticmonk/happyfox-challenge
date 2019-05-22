@@ -2,6 +2,7 @@
 
 require("dotenv").config();
 
+const url = require("url");
 const axios = require("axios");
 const { expect } = require("chai");
 
@@ -22,7 +23,10 @@ describe("CONTACT", () => {
   };
 
   it("should add a new contact", async () => {
-    const result = await axios.post(`${BASE_URL}/api/contact/add`, newContact);
+    const result = await axios.post(
+      url.resolve(BASE_URL, "/api/contact/add"),
+      newContact
+    );
     const { name, email, phone, _id } = result.data.data;
     contactId = _id;
 
@@ -34,7 +38,9 @@ describe("CONTACT", () => {
   });
 
   it("should return a contact", async () => {
-    const result = await axios.get(`${BASE_URL}/api/contact/${contactId}`);
+    const result = await axios.get(
+      url.resolve(BASE_URL, `/api/contact/${contactId}`)
+    );
     const { _id, name } = result.data.data;
 
     expect(_id).to.equal(contactId);
@@ -47,7 +53,7 @@ describe("CONTACT", () => {
     };
 
     const result = await axios.patch(
-      `${BASE_URL}/api/contact/${contactId}`,
+      url.resolve(BASE_URL, `/api/contact/${contactId}`),
       toUpdate
     );
     const { _id, name } = result.data.data;
@@ -59,7 +65,7 @@ describe("CONTACT", () => {
 
   it("should search for a contact", async () => {
     const result = await axios.get(
-      `${BASE_URL}/api/contact/search?name=sumedh`
+      url.resolve(BASE_URL, `/api/contact/search?name=sumedh`)
     );
     const { status, data: matches } = result.data;
 
@@ -69,7 +75,9 @@ describe("CONTACT", () => {
   });
 
   it("should delete a contact", async () => {
-    const result = await axios.delete(`${BASE_URL}/api/contact/${contactId}`);
+    const result = await axios.delete(
+      url.resolve(BASE_URL, `/api/contact/${contactId}`)
+    );
     const { status } = result.data;
 
     expect(status).to.equal(200);

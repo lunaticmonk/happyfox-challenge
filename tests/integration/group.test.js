@@ -2,6 +2,7 @@
 
 require("dotenv").config();
 
+const url = require("url");
 const axios = require("axios");
 const { expect } = require("chai");
 
@@ -29,7 +30,10 @@ describe("GROUP", () => {
       }
     };
 
-    const result = await axios.post(`${BASE_URL}/api/contact/add`, newContact);
+    const result = await axios.post(
+      url.resolve(BASE_URL, `/api/contact/add`),
+      newContact
+    );
     const { _id } = result.data.data;
     const { status } = result.data;
 
@@ -40,7 +44,10 @@ describe("GROUP", () => {
   });
 
   it("should add a new group", async () => {
-    const result = await axios.post(`${BASE_URL}/api/group/add`, newGroup);
+    const result = await axios.post(
+      url.resolve(BASE_URL, `/api/group/add`),
+      newGroup
+    );
     const { _id, name, contacts } = result.data.data;
 
     groupId = _id;
@@ -51,7 +58,9 @@ describe("GROUP", () => {
   });
 
   it("should return a group", async () => {
-    const result = await axios.get(`${BASE_URL}/api/group/${groupId}`);
+    const result = await axios.get(
+      url.resolve(BASE_URL, `/api/group/${groupId}`)
+    );
     const { _id, name } = result.data.data;
 
     expect(_id).to.equal(groupId);
@@ -64,7 +73,7 @@ describe("GROUP", () => {
     };
 
     const result = await axios.patch(
-      `${BASE_URL}/api/group/${groupId}`,
+      url.resolve(BASE_URL, `/api/group/${groupId}`),
       toUpdate
     );
     const { _id, name } = result.data.data;
@@ -75,14 +84,18 @@ describe("GROUP", () => {
   });
 
   it("should delete a group", async () => {
-    const result = await axios.delete(`${BASE_URL}/api/group/${groupId}`);
+    const result = await axios.delete(
+      url.resolve(BASE_URL, `/api/group/${groupId}`)
+    );
     const { status } = result.data;
 
     expect(status).to.equal(200);
   });
 
   after(async () => {
-    const result = await axios.delete(`${BASE_URL}/api/contact/${contactId}`);
+    const result = await axios.delete(
+      url.resolve(BASE_URL, `/api/contact/${contactId}`)
+    );
     const { status } = result.data;
 
     expect(status).to.equal(200);
