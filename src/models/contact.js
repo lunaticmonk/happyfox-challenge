@@ -28,10 +28,18 @@ const contactSchema = Schema(
   { timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" } }
 );
 
-contactSchema.index({
-  name: "text",
-  "email.value": "text"
-});
+contactSchema.index(
+  {
+    name: "text",
+    "email.value": "text",
+    "phone.value": "text"
+  },
+  {
+    name: 10,
+    "email.value": 9,
+    "phone.value": 8
+  }
+);
 
 const Contact = mongoose.model("Contact", contactSchema);
 
