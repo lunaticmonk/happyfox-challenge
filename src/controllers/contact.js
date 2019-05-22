@@ -117,15 +117,33 @@ async function deleteContact(req, res, next) {
 
 async function searchContact(req, res, next) {
   try {
-    const { query } = req.query;
+    const { name, email, phone } = req.query;
     let matches;
+    let matchesByName, matchesByEmail, matchesByPhone;
 
-    if (query === "") {
+    if (!(name || email || phone)) {
+      /**
+       * Empty query. Return all matches.
+       */
       matches = await Contact.find({});
     } else {
-      matches = await Contact.find({
-        $text: { $search: query, $caseSensitive: false }
+      /**
+       * Getting matches by name, email, phone and then merging them.
+       *
+       */
+      matchesByName = await Contact.find({
+        $text: { $search: name || "", $caseSensitive: false }
       });
+
+      matchesByEmail = await Contact.find({
+        $text: { $search: email || "", $caseSensitive: false }
+      });
+
+      matchesByPhone = await Contact.find({
+        $text: { $search: phone || "", $caseSensitive: false }
+      });
+
+      matches = [...matchesByName, ...matchesByEmail, ...matchesByPhone];
     }
 
     const descendingOrdered = await sortMatchesDescending(matches);

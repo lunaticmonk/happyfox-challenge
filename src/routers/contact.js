@@ -20,10 +20,18 @@ router.get("/", (req, res) => {
 router.get(
   "/search",
   [
-    query("query")
+    query("name")
       .optional()
       .isString()
-      .withMessage("Invalid search strinng")
+      .withMessage("Invalid name query parameter"),
+    query("email")
+      .optional()
+      .isString()
+      .withMessage("Invalid email query parameter"),
+    query("phone")
+      .optional()
+      .isString()
+      .withMessage("Invalid phone query parameter")
   ],
   searchContact
 );
