@@ -3,14 +3,18 @@
 #### Installation
 
 1. Install Node.js (v8.11.3 preferable)
-2. `npm install -g yarn`
-3. Clone the project: `git clone https://github.com/lunaticmonk/happyfox-challenge.git`
-4. cd into the folder i.e `cd happyfox-challenge`
-5. yarn
+2. > `npm install -g yarn`
+3. Clone the project:
+   > `git clone https://github.com/lunaticmonk/happyfox-challenge.git`
+4. cd into the folder i.e
+   > `cd happyfox-challenge`
+5. Run
+   > `yarn`
 6. Install MongoDB
 7. Create a .env and copy the contents of .env.default in .env.
 8. Set the .env variables correctly.
-9. Run `yarn dev`.
+9. Run
+   > `yarn dev`.
 
 #### Tests
 
@@ -28,7 +32,7 @@ To run tests
 
 1. Save new contact
 
-```json
+```js
 POST `/api/contact/add`
 
 Body
@@ -75,7 +79,7 @@ Response
 
 2. Get a contact provided the uuid.
 
-```json
+```js
 GET /api/contact/:uuid
 
 Response
@@ -107,7 +111,7 @@ Response
 
 3. Update a contact.
 
-```json
+```js
 PATCH /api/contact/:uuid
 
 Body
@@ -152,7 +156,7 @@ Response
 
 4. Delete a contact
 
-```json
+```js
 DELETE /api/contact/:uuid
 
 Response
@@ -166,7 +170,7 @@ Response
 
 5. Search a contact
 
-```json
+```js
 
 GET /api/contact/search?name=name&email=email&phone=phone
 
@@ -207,7 +211,7 @@ Response (will return 5 matched results)
 
 1. Add a new group
 
-```json
+```js
 POST /api/group/add
 
 Body
@@ -239,7 +243,7 @@ Response
 
 2. Get a group i.e group details.
 
-```json
+```js
 
 GET /api/group/:uuid
 
@@ -249,6 +253,7 @@ Response
     "data": {
         "contacts": [
             {
+				"_id": "5ce3e6646b9e1b1a62c4795d",
                 "name": "carice",
                 "phone": [
                     {
@@ -264,6 +269,7 @@ Response
                 ]
             },
             {
+				"_id": "5ce3da1f2755510dfe7affd2",
                 "name": "bran",
                 "phone": [
                     {
@@ -292,7 +298,7 @@ Response
 
 3. Update a group
 
-```json
+```js
 PATCH /api/group/:uuid
 
 Body
@@ -325,7 +331,7 @@ Response
 
 4. Delete a group
 
-```json
+```js
 GET /api/group/:uuid
 
 Response
