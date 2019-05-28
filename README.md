@@ -14,7 +14,9 @@
 7. Create a .env and copy the contents of .env.default in .env.
 8. Set the .env variables correctly.
 9. Run
-   > `yarn dev`.
+   > `yarn dev`
+
+> Alternatively, the API is hosted and the base URL is [https://happyfox.lunaticmonk.space](https://happyfox.lunaticmonk.space). Please use the endpoints given below to use the API.
 
 #### Tests
 
